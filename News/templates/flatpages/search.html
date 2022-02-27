@@ -1,0 +1,53 @@
+{% extends 'flatpages/default.html' %}
+
+{% load custom_filters %}
+
+{% block title %} Поиск новостей {% endblock title %}
+
+{% block content %}
+
+<h3>Поиск поста</h3>
+
+<form method="GET">
+    {{ filter.form }}
+    <input type="submit" value="Найти">
+</form>
+
+{% if filter %} 
+<table>
+    <thead>
+        <th>
+            Заголовок
+        </th>
+        <th>
+            Дата публикации
+        </th>
+        <th>
+            Категория
+        </th>
+        <th>
+            Текст
+        </th>
+    </thead>
+{% for post in filter.qs %}
+    <tr>
+        <td>
+            {{ post.title|censor }}
+            <a href="{% url 'post_update' post.id %}"><u>Редактировать</u></a>
+            <a href="{% url 'post_delete' post.id %}"><u> Удалить </u></a>
+        </td>
+        <td>
+            {{ post.dateCreation|date:'d-M-Y H:m' }}
+        </td>
+        <td>
+            {{ post.categoryType }}
+        </td>
+        <td>
+            {{ post.text|truncatechars:50|censor }}
+        </td>
+    </tr>
+{% endfor %}
+
+</table>
+{% endif %}
+{% endblock content %}

@@ -1,0 +1,30 @@
+{% extends 'flatpages/default.html' %}
+
+{% block title %} The Best News: {{ post }} {% endblock title %}
+
+{% block content %}
+
+<br>
+<h3>{{ post }}</h3>
+<br>
+{{ post.text }}
+<br>
+<br>
+-= новость №{{ post.pk }}; автор: {{ post.author.authorUser }}; категория: {{ post.postCategory }} {{ post.categoryType }}; дата создания: {{ post.dateCreation }} =-
+<br>
+
+<hr>
+{% if is_not_subscribe %}
+<button><a href="add_subscribe/?pk={{ post.postCategory.id }}">Подписка</a></button>
+{% endif %}
+
+{% if is_subscribe %}
+<button><a href="del_subscribe/?pk={{ post.postCategory.id }}">Отписка</a></button>
+{% endif %}
+
+<hr>
+<a href="{% url 'post_update' post.id %}"><u>Редактировать</u></a>   <!--ссылка на редактирование товара-->
+<a href="{% url 'post_delete' post.id %}"><u>Удалить</u></a>   <!--ссылка на удаление товара-->
+<hr>
+
+{% endblock content %}
